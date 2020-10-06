@@ -10,18 +10,29 @@ module.exports.postCommits = async (req, res) => {
     const candidate = await Commits.findOne({count: data.count, gitHubRepository: data.gitHubRepository})
 
     if (candidate) {
-        // no new commits (do not save)
-        // res.status(409).json({
-        //     message: 'no new commits'
-        // })
+        console.log('(do not save....)')
     } else {
+
+        const candidateNoSuch = await Commits.findOne({gitHubRepository: data.gitHubRepository})
         const commits = await new Commits(data)
 
-        try {
-            await commits.save();
-            res.status(201).json(commits);
-        } catch (e) {
-            errorHandler(res, e);
+        console.log(candidateNoSuch)
+
+        if(!candidateNoSuch){
+            console.log('there is no such thing, create....')
+            try {
+                await commits.save();
+                res.status(201).json(commits);
+            } catch (e) {
+                errorHandler(res, e);
+            }
+        }else{
+            console.log('there is such, update....')
+            Commits.findOneAndUpdate({gitHubRepository: data.gitHubRepository}, data, {new: true}, function (err, user) {
+                if (err)
+                    res.send(err);
+                res.json(data);
+            });
         }
     }
     
