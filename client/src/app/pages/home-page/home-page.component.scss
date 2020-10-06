@@ -1,0 +1,29 @@
+ul li {
+  list-style: none;
+  margin: 20px 0;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px 2px rgba(0,0,0,.1);
+}
+
+.section {
+  min-height: 100px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 20px auto;
+  border: 1px solid lightgray;
+  padding: 4px;
+}
+
+input, button {
+  padding: 4px;
+}
+
+input {
+  width: 240px;
+}
+
+.isNumber {
+  background: #d9f2d9!important;
+}

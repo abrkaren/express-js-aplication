@@ -1,0 +1,23 @@
+<div class="section">
+  <input type="text" [(ngModel)]="gitHubRepositoryLink" placeholder="Enter GitHub Repository Link">
+  <button (click)="getGitHubRepositoryCommits()" [disabled]="!gitHubRepositoryLink">Get Commits</button>
+</div>
+
+<div class="section">
+  <button (click)="getAllRepositoryCommits()">Get All Saved Repositories</button>
+  <ul *ngIf="gitHubRepositories">
+    <h2 style="margin: 8px;">saved GitHub repositories in db <span style="color: red">{{gitHubRepositories.length ? gitHubRepositories.length: '0'}}</span></h2>
+    <li *ngFor="let r of gitHubRepositories">
+      <p style="color: #00b300">GitHub Repository Link: <a href="{{r.gitHubRepository}}" target="_blank">{{r.gitHubRepository}}</a> </p>
+      <ul>
+        <li *ngFor="let c of r.commits" [ngClass]="{'isNumber' : isNumeric(+c.sha.charAt(c.sha.length-1))}">
+          <p>hash: <b>{{c.sha}}</b></p>
+          <p>url: <a href="{{c.html_url}}" target="_blank">{{c.html_url}}</a></p>
+          <p>author email: <b>{{c.commit[0].author.email}}</b></p>
+          <p>author name: <b>{{c.commit[0].author.name}}</b></p>
+          <p>commit: <b>{{c.commit[0].message}}</b></p>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
